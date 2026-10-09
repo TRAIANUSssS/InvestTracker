@@ -1133,25 +1133,55 @@ function syncAndRefresh() {
 
   }
 
-
-
-  syncTinkoffPositions();       lap_('syncTinkoffPositions завершён');
+  syncTinkoffPositions();
+  lap_('syncTinkoffPositions завершён');
 
   if (typeof updateCashSummary_ === 'function') {
-    updateCashSummary_();        lap_('updateCashSummary_ завершён');
+    updateCashSummary_();
+    lap_('updateCashSummary_ завершён');
   }
 
-  updateDashboard();            lap_('updateDashboard завершён');
+  updateDashboard();
+  lap_('updateDashboard завершён');
 
-  updateIncomeSheet();          lap_('updateIncomeSheet завершён');
+  calculateAveragePriceAndPL();
+  lap_('calculateAveragePriceAndPL завершён');
 
-  updateCalendarSheet();        lap_('updateCalendarSheet завершён');
+  calculateYieldOnCost();
+  lap_('calculateYieldOnCost завершён');
 
-  hideDataSheets(false);        lap_('hideDataSheets завершён');
+  calculateLdvEligibility();
+  lap_('calculateLdvEligibility завершён');
 
-  checkAndNotifyDeviations_();  lap_('checkAndNotifyDeviations_ завершён');
+  if (readIisAccountName_()) {
+    calculateIisDeductionUsage();
+    lap_('calculateIisDeductionUsage завершён');
+  }
 
-  checkIisDividendHint_();      lap_('checkIisDividendHint_ завершён');
+  if (Object.keys(readSectorMap_()).length) {
+    calculateSectorDiversification();
+    lap_('calculateSectorDiversification завершён');
+  }
+
+  if (readGoalTarget_() > 0) {
+    calculateGoalProgress();
+    lap_('calculateGoalProgress завершён');
+  }
+
+  updateIncomeSheet();
+  lap_('updateIncomeSheet завершён');
+
+  updateCalendarSheet();
+  lap_('updateCalendarSheet завершён');
+
+  hideDataSheets(false);
+  lap_('hideDataSheets завершён');
+
+  checkAndNotifyDeviations_();
+  lap_('checkAndNotifyDeviations_ завершён');
+
+  checkIisDividendHint_();
+  lap_('checkIisDividendHint_ завершён');
 
   const updateInfo = checkForUpdates_();
 
