@@ -100,10 +100,36 @@ function redrawDisciplineSection_() {
     d.months.forEach(function(m, idx) {
       let bg = idx % 2 === 0 ? C.EVEN : C.ODD;
       let clr = m.net > 0 ? C.OK : m.net < 0 ? C.CRIT : C.SKIP;
-      sh.getRange(r, colStart).setValue(MONTH_NAMES[m.mo] + ' ' + m.y).setBackground(bg);
-      sh.getRange(r, colStart + 3, 1, COLS - 3).merge().setValue(rub_(m.net))
-        .setFontColor(clr).setFontWeight('bold').setHorizontalAlignment('right');
-      sh.getRange(r, colStart, 1, COLS).setBackground(bg);
+      let monthCell = sh.getRange(r, colStart);
+
+      // Месяц
+      monthCell
+        .setNumberFormat('@')
+        .setValue(MONTH_NAMES[m.mo] + ' ' + m.y)
+        .setBackground(bg)
+        .setHorizontalAlignment('left')
+        .setVerticalAlignment('middle')
+        .setFontSize(10)
+        .setFontWeight('normal')
+        .setFontStyle('normal')
+        .setFontColor('#000000');
+
+      // Чистое сальдо
+      sh.getRange(r, colStart + 3, 1, COLS - 3)
+        .merge()
+        .setValue(rub_(m.net))
+        .setBackground(bg)
+        .setFontColor(clr)
+        .setFontWeight('bold')
+        .setFontSize(10)
+        .setFontStyle('normal')
+        .setHorizontalAlignment('right')
+        .setVerticalAlignment('middle');
+
+      // Фон всей строки
+      sh.getRange(r, colStart, 1, COLS)
+        .setBackground(bg);
+
       r++;
     });
   }, 'right');
